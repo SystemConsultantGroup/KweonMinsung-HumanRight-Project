@@ -59,10 +59,11 @@ jobs:
       - name: Set foobar to cool
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.spec.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}"' 'deployment.yaml'
+          cmd: yq -i '.spec.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}"' 'K8s-Resource/deployment.yaml'
 
       - name: Commit minifest files
         run: |
+          cd K8s-Resource
           git config --global user.email "sce06147@gmail.com"
           git config --global user.name "KoHyunsu"
           git commit -am "Update image tag"
