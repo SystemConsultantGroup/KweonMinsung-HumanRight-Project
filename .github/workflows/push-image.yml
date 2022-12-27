@@ -2,7 +2,7 @@ name: Docker CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ 'v*' ]
+    tags: [ 'v*.*.*' ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,14 +17,13 @@ jobs:
 
       - name: Generate Docker metadata
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            {{date 'YYYY.MM.DD'}}-{{sha}}
+            latest
           flavor: |
             latest=true
         
@@ -42,6 +41,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
+          platforms: linux/amd64,linux/arm64/v8
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
