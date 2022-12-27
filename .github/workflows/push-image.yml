@@ -47,3 +47,23 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Checkout for Operation repository
+        uses: actions/checkout@v3
+        with:
+          repository: SystemConsultantGroup/K8s-Resource
+          ref: main  
+          # token: ${{ secrets.GITHUB_ACTION_TOKEN }}
+          path: K8s-Resource
+
+      - name: Set foobar to cool
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i ''.spec.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}"' 'deployment.yaml'
+
+      - name: Commit minifest files
+        run: |
+          git config --global user.email "sce06147@gmail.com"
+          git config --global user.name "KoHyunsu"
+          git commit -am "Update image tag"
+          git push -u origin main
