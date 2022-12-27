@@ -53,7 +53,7 @@ jobs:
         with:
           repository: SystemConsultantGroup/K8s-Resource
           ref: main  
-          token: ${{ secrets.GITHUB_ACTION_TOKEN }}
+          token: ${{ secrets.ACTION_TOKEN }}
           path: K8s-Resource
 
       - name: Set foobar to cool
