@@ -5,7 +5,7 @@ on:
 
 env:
   dockerimage_tag: ${{ github.sha }}
-  dockerimage_name: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+  dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}
+            ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}
           tags: |
             ${{ env.dockerimage_tag }}
             latest
