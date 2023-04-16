@@ -4,10 +4,10 @@ on:
     branches: [ "main" ]
 
 env:
-  # dockerimage_tag: ${{ github.sha }}
-  # dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
-  dockerimage_tag: "latest"
-  dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:latest
+  dockerimage_tag: ${{ github.sha }}
+  dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+  # dockerimage_tag: "latest"
+  # dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:latest
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
             latest=true
         
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -45,7 +45,7 @@ jobs:
 
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        uses: docker/build-push-action@v4
         with:
           context: .
           platforms: linux/amd64,linux/arm64/v8
