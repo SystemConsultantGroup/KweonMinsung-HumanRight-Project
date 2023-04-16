@@ -4,8 +4,10 @@ on:
     branches: [ "main" ]
 
 env:
-  dockerimage_tag: ${{ github.sha }}
-  dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+  # dockerimage_tag: ${{ github.sha }}
+  # dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+  dockerimage_tag: "latest"
+  dockerimage_name: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:latest
 
 jobs:
   build:
